@@ -1,0 +1,37 @@
+#Versuchsplanung Stichprobenumfang bestimmen
+
+#Formel steht auf Seite 29 bzw 30 im Versuchsplanung Skript oder auf Seite 64-68 im SuT Skript
+
+i = 5:15
+alpha = 0.05
+delta = 1.5
+
+#linksseitiger test
+for (N in i) {
+  SP = 1 - pt( q = qt( p = alpha, df =2*N -2), ncp = -1*sqrt(N/2) * delta, df = 2*N-2)
+  print(paste("with N=", N, "is beta =", SP))
+}
+#"with N= 5 is beta = 0.301511466628368"
+#"with N= 6 is beta = 0.220133791293078"
+#"with N= 7 is beta = 0.159136182152576"
+#"with N= 8 is beta = 0.114005839322084"
+#"with N= 9 is beta = 0.0810084591570317"
+#"with N= 10 is beta = 0.0571363672229295"
+#"with N= 11 is beta = 0.0400283522241773" -> kleiner als 0.05 = beta
+#"with N= 12 is beta = 0.0278709725238416"
+#"with N= 13 is beta = 0.019296989250722"
+#"with N= 14 is beta = 0.0132915497429957"
+#"with N= 15 is beta = 0.00911133622873228"
+
+
+#Mit N = N1 = N2 = 11 ist unsere Fehlerwahrscheinlichkeit 2. Art erstmals kleiner als 0.05
+# Somit brauchen wir mindestens 22 Versuchsteilnehmer insg#esamt
+# Um gegen dropouts vorzubeugen, lieber einige mehr
+
+#zur Kontrolle mache ich auch noch die alternative Formel, das müsste das gleiche Ergebnis herauskommen
+#rechtseitiger test
+for (N in i) {
+  SP = pt( q = qt( p = 1- alpha, df =2*N -2), ncp =sqrt(N/2) * delta, df = 2*N-2)
+  print(paste("with N=", N, "is beta =", SP))
+}
+# Kontrolle erfolgreich
