@@ -3,7 +3,7 @@
 library(agricolae)
 
 plan <- design.ab(c(2,3), 4, seed = 1122334455) # 2 Faktoren, jede Faktor tritt 3 Mal in einem Block auf. Es gibt 4 Typen von Block.
-                                                
+                                                # seed für Reproduzierbarkeit
 #   plots block A B
 #1    101     1 2 1      Block 1: Tag 1, männlich
 #2    102     1 2 3
@@ -31,3 +31,46 @@ plan <- design.ab(c(2,3), 4, seed = 1122334455) # 2 Faktoren, jede Faktor tritt 
 #24   124     4 1 2
 
 # Dabei wechlassen von Spalte B
+
+
+# Randomisierung der Versuchspersonen
+
+maennlich_ID <- c(2, 3, 8, 9, 10, 14, 15, 17,
+                  19, 21, 24, 25, 26, 32, 34)  # 15 Maenner (18-23) ohne VL und left-hand
+
+weiblich_ID <- c(1, 4, 18, 20, 22, 23,
+                 27, 28, 30, 31, 33, 35)       # 12 Frauen (18-23) ohne VL und left-hand
+                 
+set.seed(1122334455) 
+maennlich_VP <- sample(maennlich_ID, 12, replace = FALSE)
+# [1]  9 14 17 34 15  2 10 24  8 19 21 26     
+
+set.seed(12345)
+weiblich_VP <- sample(weiblich_ID, 12, replace = FALSE)
+# [1] 27 23 31  4 35 20  1 30 22 18 28 33
+
+#Einheit  #Tag  #Geschecht  #ID  #Faktor
+#1         1     maennlich   9   2 
+#2         1     maennlich   14  2 
+#3         1     maennlich   17  1 
+#4         1     maennlich   34  1 
+#5         1     maennlich   15  2 
+#6         1     maennlich   2   1 
+#7         1     weiblich    27  1 
+#8         1     weiblich    23  2 
+#9         1     weiblich    31  1 
+#10        1     weiblich    4   2 
+#11        1     weiblich    35  2 
+#12        1     weiblich    20  1 
+#13        2     weiblich    1   2 
+#14        2     weiblich    30  2 
+#15        2     weiblich    22  1 
+#16        2     weiblich    18  2 
+#17        2     weiblich    28  1 
+#18        2     weiblich    33  1 
+#19        2     maennlich   10  2 
+#20        2     maennlich   24  1 
+#21        2     maennlich   8   2 
+#22        2     maennlich   19  2 
+#23        2     maennlich   21  1 
+#24        2     maennlich   26  1 
