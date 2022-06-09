@@ -1,0 +1,74 @@
+# install.packages('agricolae')
+library("readxl")
+library(agricolae)
+
+plan <- design.ab(c(2,3), 4, seed = 223344)
+
+#1    101     1 1 
+#2    102     1 2 
+#3    103     1 1 
+#4    104     1 2 
+#5    105     1 2 
+#6    106     1 1 
+#7    107     2 2 
+#8    108     2 1 
+#9    109     2 2 
+#10   110     2 1 
+#11   111     2 1 
+#12   112     2 2 
+#13   113     3 1 
+#14   114     3 1 
+#15   115     3 2 
+#16   116     3 1 
+#17   117     3 2 
+#18   118     3 2 
+#19   119     4 1 
+#20   120     4 1 
+#21   121     4 2 
+#22   122     4 2 
+#23   123     4 1 
+#24   124     4 2 
+
+my_data <- read_excel("Versuchsteilnehmer 1.Runde.xlsx", sheet = 1)
+my_data_ohneLinks <- subset(my_data, Rechtshändigkeit == "ja")
+my_data_ohneLinksundVL <- subset(my_data_ohneLinks, Versuchsleiter == "nein")
+
+maennlich_Nr <- my_data_ohneLinksundVL$Nr.[my_data_ohneLinksundVL$Geschlecht == "männlich"]
+# [1]  2  5  7  8  9 10 14 15 16 17 19 21 24 25 26 32 34
+
+weiblich_Nr <- my_data_ohneLinksundVL$Nr.[my_data_ohneLinksundVL$Geschlecht == "weiblich"]
+# [1]  1  4 12 18 20 22 23 27 28 30 33 35
+
+set.seed(223344)
+maennlich_VP <- sample(maennlich_Nr, 12, replace = FALSE)
+# [1] 24  9 10  8  7 15 19 32 16  2 25 21
+
+set.seed(234)
+weiblich_VP <- sample(weiblich_Nr, 12, replace = FALSE)
+# [1]  4 12 35 23  1 20 27 30 18 28 33 22
+
+#Einheit  #Tag  #Geschecht  #ID  #Faktor
+#1         1     maennlich   24   1 
+#2         1     maennlich   9    2 
+#3         1     maennlich   10   1 
+#4         1     maennlich   8    2 
+#5         1     maennlich   7    2
+#6         1     maennlich   15   1 
+#7         1     weiblich    4    2
+#8         1     weiblich    12   1 
+#9         1     weiblich    35   2 
+#10        1     weiblich    23   1 
+#11        1     weiblich    1    1 
+#12        1     weiblich    20   2 
+#13        2     weiblich    27   1 
+#14        2     weiblich    30   1 
+#15        2     weiblich    18   2 
+#16        2     weiblich    28   1 
+#17        2     weiblich    33   2 
+#18        2     weiblich    22   2 
+#19        2     maennlich   19   1 
+#20        2     maennlich   32   1 
+#21        2     maennlich   16   2 
+#22        2     maennlich   2    2
+#23        2     maennlich   25   1 
+#24        2     maennlich   21   2 
